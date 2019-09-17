@@ -1,0 +1,16 @@
+{
+  "name": "student-spa",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "debug": "~2.6.9",
+    "ejs": "^2.7.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "mongoose": "^5.7.1",
+    "morgan": "~1.9.1"
+  }
+}
