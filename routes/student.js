@@ -6,6 +6,10 @@ studentRouter
   .route('/')
   .get(studentController.allStudents)
   .post(studentController.create)
+
+studentRouter
+  .route('/:sid([0-9]{4}-[0-9]{5})') // regex to be continued
+  .get(studentController.getStudentByStudentId)
   .put(studentController.updateStudentByStudentId)
   .delete(studentController.deleteStudentByStudentId)
 

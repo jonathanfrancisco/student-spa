@@ -12,9 +12,12 @@ module.exports.allStudents = async (req, res, next) => {
 
 module.exports.create = async (req, res, next) => {
   try {
-    const newStudent = new Student(req.body)
-    const student = await Student.crea
-    console.log('nani dafak', student)
+    const newStudent = await new Student(req.body)
+    const error = newStudent.validateSync()
+    if (error) {
+      return next(new createError.BadRequest(error.errors))
+    }
+    const student = await newStudent.save()
     res.status(201).json(student)
   } catch (err) {
     next(err)
@@ -24,11 +27,12 @@ module.exports.create = async (req, res, next) => {
 module.exports.getStudentByStudentId = async (req, res, next) => {
   try {
     const { sid } = req.params
-    const student = await Student.find({ sid })
-    if (student) {
-      res.json(student)
+    const student = await Student.findOne({ sid })
+    console.log(student + 'hayupp' + sid)
+    if (student === null) {
+      return next(new createError.NotFound({ message: 'resource not found' }))
     }
-    return next(new createError.NotFound())
+    res.json(student)
   } catch (err) {
     next(err)
   }
@@ -37,12 +41,23 @@ module.exports.getStudentByStudentId = async (req, res, next) => {
 module.exports.updateStudentByStudentId = async (req, res, next) => {
   try {
     const { sid } = req.params
-    const updatedStudent = req.body
-    const student = await Student.find({ sid }, { $set: updatedStudent })
-    if (student) {
-      res.json(student)
+    const studentToUdate = await Student.findOne({ sid })
+    if (studentToUdate === null) {
+      return next(new createError.NotFound({ message: 'resource not found' }))
     }
-    return next(new createError.NotFound())
+
+    const updatedStudent = new Student(req.body)
+    const error = updatedStudent.validateSync()
+    if (error) {
+      return next(new createError.BadRequest(error.errors))
+    }
+
+    const student = await Student.findOneAndUpdate(
+      { sid },
+      { $set: updatedStudent },
+      true
+    )
+    res.json(student)
   } catch (err) {
     next(err)
   }
@@ -51,11 +66,12 @@ module.exports.updateStudentByStudentId = async (req, res, next) => {
 module.exports.deleteStudentByStudentId = async (req, res, next) => {
   try {
     const { sid } = req.params
-    const student = await Student.find({ sid })
-    if (student) {
-      res.status(204).send()
+    const studentToDelete = await Student.findOne({ sid })
+    if (studentToDelete === null) {
+      return next(new createError.NotFound())
     }
-    return next(new createError.NotFound())
+    await Student.findOneAndDelete({ sid })
+    res.status(204).send()
   } catch (err) {
     next(err)
   }

@@ -4,7 +4,7 @@ const { Schema } = mongoose
 const studentSchema = new Schema({
   sid: {
     type: String,
-    required: true,
+    required: [true, 'sid is required'],
     validate: {
       validator: (v = /[0-9]{4}-[0-9]{5}/),
       message: props => `${props.value} is not a valid student id`
@@ -12,28 +12,29 @@ const studentSchema = new Schema({
   },
   first_name: {
     type: String,
-    required: true
+    required: true,
+    required: [true, 'first_name is required']
   },
   last_name: {
     type: String,
-    required: true
+    required: [true, 'last_name is required']
   },
   gender: {
     type: String,
-    required: true
+    required: [true, 'gender is required']
   },
   birthday: {
     type: Date,
-    required: true
+    required: [true, 'birthday is required']
   },
   status: {
     type: String,
-    required: true,
+    required: [true, 'status is required'],
     enum: ['regular', 'irregular']
   },
   level: {
     type: String,
-    required: true,
+    required: [true, 'level is required'],
     enum: ['freshman', 'sophomore', 'junior', 'senior']
   }
 })
