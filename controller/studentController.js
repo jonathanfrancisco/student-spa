@@ -3,7 +3,7 @@ const Student = require('../models/Student')
 
 module.exports.allStudents = async (req, res, next) => {
   try {
-    const students = await Student.find({})
+    const students = await Student.find({}).sort({ _id: -1 })
     res.json(students)
   } catch (err) {
     next(err)
@@ -16,6 +16,7 @@ module.exports.create = async (req, res, next) => {
     const student = await newStudent.save()
     res.status(201).json(student)
   } catch (err) {
+    console.log(err.errors)
     if (err.errors) {
       return next(new createError.BadRequest(err.errors))
     }
