@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
+const uniqueValidator = require('mongoose-unique-validator')
 
 const studentSchema = new Schema({
   sid: {
@@ -7,7 +8,7 @@ const studentSchema = new Schema({
     required: [true, 'sid is required'],
     unique: true,
     validate: {
-      validator: (v = /[0-9]{4}-[0-9]{5}/),
+      validator: (v = /\b[0-9]{4}-[0-9]{5}\b/),
       message: props => `${props.value} is not a valid student id`
     }
   },
@@ -39,6 +40,7 @@ const studentSchema = new Schema({
     enum: ['freshman', 'sophomore', 'junior', 'senior']
   }
 })
+studentSchema.plugin(uniqueValidator)
 
 const Student = mongoose.model('Student', studentSchema)
 

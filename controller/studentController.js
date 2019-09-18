@@ -20,6 +20,9 @@ module.exports.create = async (req, res, next) => {
     const student = await newStudent.save()
     res.status(201).json(student)
   } catch (err) {
+    if (err.errors.sid) {
+      return next(new createError.BadRequest(err.errors))
+    }
     next(err)
   }
 }
@@ -28,7 +31,6 @@ module.exports.getStudentByStudentId = async (req, res, next) => {
   try {
     const { sid } = req.params
     const student = await Student.findOne({ sid })
-    console.log(student + 'hayupp' + sid)
     if (student === null) {
       return next()
     }
@@ -49,7 +51,7 @@ module.exports.updateStudentByStudentId = async (req, res, next) => {
     const updatedStudent = new Student(req.body)
     const error = updatedStudent.validateSync()
     if (error) {
-      return next(new createError.BadRequest(error.errors))
+      return next([new createError.BadRequest(error.errors)])
     }
 
     const student = await Student.findOneAndUpdate(
@@ -59,6 +61,9 @@ module.exports.updateStudentByStudentId = async (req, res, next) => {
     )
     res.json(student)
   } catch (err) {
+    if (err.errors.sid) {
+      return next(new createError.BadRequest(err.errors))
+    }
     next(err)
   }
 }
