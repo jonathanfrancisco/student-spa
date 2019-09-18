@@ -43,12 +43,11 @@ module.exports.updateStudentByStudentId = async (req, res, next) => {
     if (studentToUdate === null) {
       return next()
     }
-
-    const updatedStudent = new Student(req.body)
+    const updatedStudent = req.body
     const student = await Student.findOneAndUpdate(
       { sid },
       { $set: updatedStudent },
-      true
+      { new: true }
     )
     res.json(student)
   } catch (err) {
