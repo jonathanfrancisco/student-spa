@@ -13,14 +13,10 @@ module.exports.allStudents = async (req, res, next) => {
 module.exports.create = async (req, res, next) => {
   try {
     const newStudent = await new Student(req.body)
-    const error = newStudent.validateSync()
-    if (error) {
-      return next(new createError.BadRequest(error.errors))
-    }
     const student = await newStudent.save()
     res.status(201).json(student)
   } catch (err) {
-    if (err.errors.sid) {
+    if (err.errors) {
       return next(new createError.BadRequest(err.errors))
     }
     next(err)
@@ -49,11 +45,6 @@ module.exports.updateStudentByStudentId = async (req, res, next) => {
     }
 
     const updatedStudent = new Student(req.body)
-    const error = updatedStudent.validateSync()
-    if (error) {
-      return next([new createError.BadRequest(error.errors)])
-    }
-
     const student = await Student.findOneAndUpdate(
       { sid },
       { $set: updatedStudent },
@@ -61,7 +52,7 @@ module.exports.updateStudentByStudentId = async (req, res, next) => {
     )
     res.json(student)
   } catch (err) {
-    if (err.errors.sid) {
+    if (err.errors) {
       return next(new createError.BadRequest(err.errors))
     }
     next(err)
