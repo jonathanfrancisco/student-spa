@@ -30,7 +30,7 @@ module.exports.getStudentByStudentId = async (req, res, next) => {
     const student = await Student.findOne({ sid })
     console.log(student + 'hayupp' + sid)
     if (student === null) {
-      return next(new createError.NotFound({ message: 'resource not found' }))
+      return next()
     }
     res.json(student)
   } catch (err) {
@@ -43,7 +43,7 @@ module.exports.updateStudentByStudentId = async (req, res, next) => {
     const { sid } = req.params
     const studentToUdate = await Student.findOne({ sid })
     if (studentToUdate === null) {
-      return next(new createError.NotFound({ message: 'resource not found' }))
+      return next()
     }
 
     const updatedStudent = new Student(req.body)
@@ -68,7 +68,7 @@ module.exports.deleteStudentByStudentId = async (req, res, next) => {
     const { sid } = req.params
     const studentToDelete = await Student.findOne({ sid })
     if (studentToDelete === null) {
-      return next(new createError.NotFound())
+      return next()
     }
     await Student.findOneAndDelete({ sid })
     res.status(204).send()

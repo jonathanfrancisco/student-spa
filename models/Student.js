@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
-e
+
 const studentSchema = new Schema({
   sid: {
     type: String,
