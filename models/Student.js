@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
-
+e
 const studentSchema = new Schema({
   sid: {
     type: String,
     required: [true, 'sid is required'],
+    unique: true,
     validate: {
       validator: (v = /[0-9]{4}-[0-9]{5}/),
       message: props => `${props.value} is not a valid student id`
