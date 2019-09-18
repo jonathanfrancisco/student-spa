@@ -7,6 +7,7 @@ const studentSchema = new Schema({
     type: String,
     required: [true, 'sid is required'],
     unique: true,
+    immutable: true,
     validate: {
       validator: (v = /\b[0-9]{4}-[0-9]{5}\b/),
       message: props => `${props.value} is not a valid student id`
