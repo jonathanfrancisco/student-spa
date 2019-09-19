@@ -1,12 +1,33 @@
 import React from 'react'
-import { Table, Button, Divider, Row, Col, Typography, Icon } from 'antd'
-import CreateStudentFormModal from '../CreateStudentFormModal/'
+import {
+  Table,
+  Button,
+  Divider,
+  Row,
+  Col,
+  Typography,
+  Icon,
+  Avatar
+} from 'antd'
+import CreateStudentFormModal from '../CreateStudentFormModal'
+import StudentProfileDrawer from '../StudentProfileDrawer'
 import UpdateStudentFormModal from '../UpdateStudentFormModal'
 const { Title } = Typography
 
 const StudentTable = props => {
   const { handleCreate, handleDelete, handleUpdate } = props
   const columns = [
+    {
+      title: '',
+      dataIndex: '',
+      key: '',
+      render: (text, record) =>
+        record.gender === 'male' ? (
+          <Avatar src="https://freeicons.io/laravel/public/uploads/icons/png/14887127141548234988-128.png" />
+        ) : (
+          <Avatar src="https://cdn2.iconfinder.com/data/icons/rcons-users-color/32/student_girl-512.png" />
+        )
+    },
     {
       title: 'Student ID',
       dataIndex: 'sid',
@@ -28,10 +49,7 @@ const StudentTable = props => {
       dataIndex: 'actions',
       render: (text, record) => (
         <div>
-          <Button type="primary">
-            <Icon type="profile" />
-            View
-          </Button>
+          <StudentProfileDrawer student={record} />
           <Divider type="vertical" />
           <UpdateStudentFormModal student={record} onUpdate={handleUpdate} />
           <Divider type="vertical" />
