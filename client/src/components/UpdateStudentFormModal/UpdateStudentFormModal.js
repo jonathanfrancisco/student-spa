@@ -10,19 +10,28 @@ import {
   DatePicker,
   Icon
 } from 'antd'
+import moment from 'moment'
 const { Option } = Select
 
-const CreateStudentFormModal = Form.create({ name: 'create_student_modal' })(
+const UpdateStudentFormModal = Form.create({ name: 'update_student_modal' })(
   class extends React.Component {
     render() {
-      const { form, visible, onVisible, onSubmit, onCancel } = this.props
+      const {
+        student,
+        form,
+        visible,
+        onVisible,
+        onSubmit,
+        onCancel
+      } = this.props
       const { getFieldDecorator } = form
+
       return (
         <React.Fragment>
           <Modal
             centered
-            title="Create New Student"
-            okText="Create"
+            title="Update Student"
+            okText="Update"
             visible={visible}
             onOk={onSubmit}
             onCancel={onCancel}
@@ -48,8 +57,9 @@ const CreateStudentFormModal = Form.create({ name: 'create_student_modal' })(
                             cb()
                           }
                         }
-                      ]
-                    })(<Input />)}
+                      ],
+                      initialValue: student.sid
+                    })(<Input disabled />)}
                   </Form.Item>
                 </Col>
                 <Col span={12}>
@@ -60,7 +70,8 @@ const CreateStudentFormModal = Form.create({ name: 'create_student_modal' })(
                           required: true,
                           message: 'First Name is required'
                         }
-                      ]
+                      ],
+                      initialValue: student.first_name
                     })(<Input />)}
                   </Form.Item>
                 </Col>
@@ -72,7 +83,8 @@ const CreateStudentFormModal = Form.create({ name: 'create_student_modal' })(
                           required: true,
                           message: 'Last Name is required'
                         }
-                      ]
+                      ],
+                      initialValue: student.last_name
                     })(<Input />)}
                   </Form.Item>
                 </Col>
@@ -84,7 +96,8 @@ const CreateStudentFormModal = Form.create({ name: 'create_student_modal' })(
                           required: true,
                           message: 'Gender is required'
                         }
-                      ]
+                      ],
+                      initialValue: student.gender
                     })(
                       <Select placeholder="Select Gender">
                         <Option value="male">Male</Option>
@@ -101,7 +114,8 @@ const CreateStudentFormModal = Form.create({ name: 'create_student_modal' })(
                           required: true,
                           message: 'Birthday is required'
                         }
-                      ]
+                      ],
+                      initialValue: moment(student.birthday)
                     })(
                       <DatePicker
                         format="MM-DD-YYYY"
@@ -118,7 +132,8 @@ const CreateStudentFormModal = Form.create({ name: 'create_student_modal' })(
                           required: true,
                           message: 'Status is required'
                         }
-                      ]
+                      ],
+                      initialValue: student.status
                     })(
                       <Select placeholder="Select Status">
                         <Option value="regular">Regular</Option>
@@ -135,7 +150,8 @@ const CreateStudentFormModal = Form.create({ name: 'create_student_modal' })(
                           required: true,
                           message: 'Level is required'
                         }
-                      ]
+                      ],
+                      initialValue: student.level
                     })(
                       <Select placeholder="Select Level">
                         <Option value="freshman">Freshman</Option>
@@ -152,8 +168,8 @@ const CreateStudentFormModal = Form.create({ name: 'create_student_modal' })(
               </Button>
             </Form>
           </Modal>
-          <Button type="primary" onClick={onVisible} htmlType="submit">
-            <Icon type="user-add" /> Create New Student
+          <Button onClick={onVisible} htmlType="submit">
+            <Icon type="edit" /> Update
           </Button>
         </React.Fragment>
       )
@@ -161,4 +177,4 @@ const CreateStudentFormModal = Form.create({ name: 'create_student_modal' })(
   }
 )
 
-export default CreateStudentFormModal
+export default UpdateStudentFormModal

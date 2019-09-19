@@ -1,23 +1,23 @@
 import React from 'react'
-import CreateStudentFormModal from './CreateStudentFormModal'
+import UpdateStudentFormModal from './UpdateStudentFormModal'
 
-class CreateStudentFormModalContainer extends React.Component {
+class UpdateStudentFormModalContainer extends React.Component {
   state = { visible: false }
 
   handleVisible = () => {
-    console.log('handle visible')
     this.setState({ visible: !this.state.visible })
   }
 
   handleSubmit = e => {
     e.preventDefault()
     const { form } = this.formRef.props
-    const { onCreate } = this.props
+    const { sid } = this.props.student
+    const { onUpdate } = this.props
     form.validateFields((err, values) => {
       if (err) {
         return
       }
-      onCreate(values)
+      onUpdate(sid, values)
       form.resetFields()
       this.setState({ visible: false })
     })
@@ -34,8 +34,10 @@ class CreateStudentFormModalContainer extends React.Component {
   }
 
   render() {
+    const { student } = this.props
     return (
-      <CreateStudentFormModal
+      <UpdateStudentFormModal
+        student={student}
         wrappedComponentRef={this.saveFormRef}
         visible={this.state.visible}
         onVisible={this.handleVisible}
@@ -46,4 +48,4 @@ class CreateStudentFormModalContainer extends React.Component {
   }
 }
 
-export default CreateStudentFormModalContainer
+export default UpdateStudentFormModalContainer

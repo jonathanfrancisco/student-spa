@@ -1,9 +1,11 @@
 import React from 'react'
 import { Table, Button, Divider, Row, Col, Typography, Icon } from 'antd'
 import CreateStudentFormModal from '../CreateStudentFormModal/'
-const { Title, Text } = Typography
+import UpdateStudentFormModal from '../UpdateStudentFormModal'
+const { Title } = Typography
 
 const StudentTable = props => {
+  const { handleCreate, handleDelete, handleUpdate } = props
   const columns = [
     {
       title: 'Student ID',
@@ -11,11 +13,14 @@ const StudentTable = props => {
       key: 'sid'
     },
     {
-      title: 'Full Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text, record) =>
-        `${record.first_name.toUpperCase()} ${record.last_name.toUpperCase()}`
+      title: 'First Name',
+      dataIndex: 'first_name',
+      key: 'first_name'
+    },
+    {
+      title: 'Last Name',
+      dataIndex: 'last_name',
+      key: 'last_name'
     },
     {
       title: 'Action(s)',
@@ -28,11 +33,9 @@ const StudentTable = props => {
             View
           </Button>
           <Divider type="vertical" />
-          <Button type="default">
-            <Icon type="form" /> Edit
-          </Button>
+          <UpdateStudentFormModal student={record} onUpdate={handleUpdate} />
           <Divider type="vertical" />
-          <Button onClick={() => props.onDelete(record.sid)} type="danger">
+          <Button onClick={() => handleDelete(record.sid)} type="danger">
             <Icon type="delete" /> Delete
           </Button>
         </div>
@@ -47,10 +50,10 @@ const StudentTable = props => {
           <Title level={3}>Students</Title>
         </Col>
         <Col span={12} style={{ textAlign: 'right' }}>
-          <CreateStudentFormModal getStudents={props.getStudents} />
+          <CreateStudentFormModal onCreate={handleCreate} />
         </Col>
       </Row>
-      <Table columns={columns} dataSource={props.students} />
+      <Table size="small" columns={columns} dataSource={props.students} />
     </React.Fragment>
   )
 }

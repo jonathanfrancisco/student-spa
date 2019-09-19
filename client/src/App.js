@@ -3,8 +3,6 @@ import 'antd/dist/antd.css'
 import { Layout, Card, Typography } from 'antd'
 import StudentTable from './components/StudentTable'
 
-const { Title } = Typography
-
 class App extends React.Component {
   render() {
     return (
@@ -13,7 +11,7 @@ class App extends React.Component {
           style={{
             padding: '50px 100px',
             minHeight: '100vh',
-            background: '#fff'
+            background: '#262626'
           }}
         >
           <div style={{ background: '#fff' }}>

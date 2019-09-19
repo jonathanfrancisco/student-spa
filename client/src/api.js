@@ -12,6 +12,9 @@ const api = {
   },
   deleteStudentByStudentId(sid) {
     return axios.delete(`/students/${sid}`)
+  },
+  updateStudentByStudentId(sid, newValues) {
+    return axios.put(`/students/${sid}`, newValues)
   }
 }
 
